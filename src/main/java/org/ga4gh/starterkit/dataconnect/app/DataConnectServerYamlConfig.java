@@ -2,7 +2,6 @@ package org.ga4gh.starterkit.dataconnect.app;
 
 import org.ga4gh.starterkit.common.config.DatabaseProps;
 import org.ga4gh.starterkit.common.config.ServerProps;
-
 import lombok.Getter;
 import lombok.Setter;
 
