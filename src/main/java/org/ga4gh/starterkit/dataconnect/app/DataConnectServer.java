@@ -3,6 +3,8 @@
  */
 package org.ga4gh.starterkit.dataconnect.app;
 
+import org.apache.commons.cli.Options;
+import org.ga4gh.starterkit.common.util.webserver.ServerPropertySetter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +14,17 @@ import org.springframework.context.annotation.ComponentScan;
 public class DataConnectServer {
     
     public static void main(String[] args) {
-        SpringApplication.run(DataConnectServer.class, args);
+        boolean setupSuccess = setup(args);
+        if (setupSuccess) {
+            SpringApplication.run(DataConnectServer.class, args);
+        } else {
+            System.out.println("Application failed at initial setup phase, this is likely an error in the YAML config file. Exiting");
+        }
+    }
+
+    private static boolean setup(String[] args) {
+        Options options = new DataConnectServerSpringConfig().getCommandLineOptions();
+        ServerPropertySetter setter = new ServerPropertySetter();
+        return setter.setServerProperties(DataConnectServerYamlConfigContainer.class, args, options, "config");
     }
 }
