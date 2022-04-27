@@ -1,0 +1,13 @@
+dataConnectConfig:
+  serverProps:
+    scheme: http
+    publicApiPort: 7000
+    adminApiPort: 7001
+  serviceInfo:
+    id: org.ga4gh.starterkit.dataconnect.custom.test
+    name: Data Connect Custom Config Test Deployment
+    description: Data Connect server test deployment using custom configurations
+    contactUrl: mailto:test@ga4gh.org
+    organization:
+      name: GA4GH
+      url: https://ga4gh.org
