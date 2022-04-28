@@ -32,3 +32,55 @@ jobs:
         run: |
           ./gradlew jacocoTestReport
           bash <(curl -s https://codecov.io/bash)
+
+  DockerTest:
+    needs: UnitTest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Get and Set Version
+        run: |
+          source ci/set-docker-image-version.sh
+          echo "version=${DOCKER_IMG_VER}" >> $GITHUB_ENV
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          file: ./Dockerfile
+          push: true
+          tags: ga4gh/ga4gh-starter-kit-data-connect:test
+          build-args: VERSION=${{ env.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Start Services
+        run: docker-compose up -d
+
+      - name: Service Health Check
+        uses: jtalk/url-health-check-action@v2
+        with:
+          url: http://localhost:4500/service-info
+          follow-redirect: false
+          max-attempts: 6
+          retry-delay: 10s
+          retry-all: true
+
+      - name: Docker Test
+        run: ./gradlew test --tests=docker.*

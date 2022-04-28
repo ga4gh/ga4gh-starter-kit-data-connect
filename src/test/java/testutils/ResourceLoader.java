@@ -1,4 +1,4 @@
-package org.ga4gh.starterkit.dataconnect.testutils;
+package testutils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
