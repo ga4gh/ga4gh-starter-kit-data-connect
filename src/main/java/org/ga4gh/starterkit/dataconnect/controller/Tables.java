@@ -16,7 +16,7 @@ public class Tables {
     }
 
     @GetMapping(path = "/{table_name}/info")
-    public String getTable(
+    public String getTableInfo(
         @PathVariable(name = "table_name") String tableName
     ) {
         return "You hit the /tables/{table_name}/info endpoint."
