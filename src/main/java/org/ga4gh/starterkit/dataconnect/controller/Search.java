@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 public class Search {
 
+    // TODO Implement search endpoint
     @PostMapping
     public String search() {
         return "You hit the search endpoint. This method is a stub.";
