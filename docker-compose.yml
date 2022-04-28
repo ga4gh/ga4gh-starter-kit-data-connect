@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  testbed-api:
+  data-connect:
     image: ga4gh/ga4gh-starter-kit-data-connect:test
     hostname: dataconnect.starterkit.ga4gh.org
     ports:
