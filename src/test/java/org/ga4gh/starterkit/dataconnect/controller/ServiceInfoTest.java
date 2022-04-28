@@ -2,7 +2,6 @@ package org.ga4gh.starterkit.dataconnect.controller;
 
 import org.ga4gh.starterkit.dataconnect.app.DataConnectServer;
 import org.ga4gh.starterkit.dataconnect.app.DataConnectServerSpringConfig;
-import org.ga4gh.starterkit.dataconnect.testutils.ResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import testutils.ResourceLoader;
 
 @SpringBootTest
 @ContextConfiguration(classes = {

@@ -1,0 +1,1 @@
+You hit the /tables endpoint. This method is a stub.

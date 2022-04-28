@@ -1,0 +1,1 @@
+You hit the /tables/{table_name}/info endpoint. This method is a stub. You requested the table: 'phenopacket'
