@@ -1,3 +1,74 @@
-{
-    "test": "test"
-}
+[
+    {
+        "sample_name": "HG00315",
+        "sex": "female",
+        "biosample_id": "SAME124335",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/9979c754-2616-40ff-99d9-33ba843915a6"
+    },
+    {
+        "sample_name": "HG00327",
+        "sex": "female",
+        "biosample_id": "SAME123791",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/734aeef9-3537-4bb5-847b-10fbf3db73a9"
+    },
+    {
+        "sample_name": "HG00334",
+        "sex": "female",
+        "biosample_id": "SAME123981",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/693eda07-27fc-4dba-bc13-148e08dfc5cc"
+    },
+    {
+        "sample_name": "HG00339",
+        "sex": "female",
+        "biosample_id": "SAME123991",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/e31f6bda-4e4f-4765-9259-f67f284ba95b"
+    },
+    {
+        "sample_name": "HG00341",
+        "sex": "male",
+        "biosample_id": "SAME124922",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/07142adc-330f-4773-bc81-ba9275dfa14e"
+    },
+    {
+        "sample_name": "HG00346",
+        "sex": "female",
+        "biosample_id": "SAME125264",
+        "population_code": "FIN",
+        "population_name": "Finnish",
+        "superpopulation_code": "EUR",
+        "superpopulation_name": "European Ancestry",
+        "population_elastic_id": "FIN",
+        "data_collections": "1000 Genomes on GRCh38,1000 Genomes 30x on GRCh38,1000 Genomes phase 3 release,1000 Genomes phase 1 release,Geuvadis",
+        "wgs_cram_drs_uri": "drs://localhost:5000/ce3b1bb5-50e4-4c0c-b598-50ff5998c748"
+    }
+]
