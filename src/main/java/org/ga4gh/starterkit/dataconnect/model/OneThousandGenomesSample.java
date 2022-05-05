@@ -20,6 +20,9 @@ public class OneThousandGenomesSample implements HibernateEntity<String> {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
+    @Column(name = "json_data", updatable = false, nullable = false)
+    private String jsonData;
+
     public void loadRelations() {
 
     }
