@@ -16,8 +16,9 @@ import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsFilter;
 import org.ga4gh.starterkit.common.util.webserver.CorsFilterBuilder;
 import org.ga4gh.starterkit.common.util.webserver.TomcatMultiConnectorServletWebServerFactoryCustomizer;
 import org.ga4gh.starterkit.dataconnect.model.DataConnectServiceInfo;
-import org.ga4gh.starterkit.dataconnect.model.DataConnectServiceInfo;
+import org.ga4gh.starterkit.dataconnect.model.ListTablesResponse;
 import org.ga4gh.starterkit.dataconnect.model.OneThousandGenomesSample;
+import org.ga4gh.starterkit.dataconnect.model.TableProperties;
 import org.ga4gh.starterkit.dataconnect.utils.hibernate.DataConnectHibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -147,5 +148,17 @@ public class DataConnectServerSpringConfig {
         hibernateUtil.setAnnotatedClasses(annotatedClasses);
         hibernateUtil.setDatabaseProps(databaseProps);
         return hibernateUtil;
+    }
+
+    @Bean
+    public TableProperties tableProperties(){
+        TableProperties tableProperties = new TableProperties();
+        return tableProperties;
+    }
+
+    @Bean
+    public ListTablesResponse listTablesResponse(){
+        ListTablesResponse listTablesResponse= new ListTablesResponse();
+        return listTablesResponse;
     }
 }
