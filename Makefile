@@ -24,12 +24,12 @@ clean-sqlite:
 # create the sqlite database
 .PHONY: sqlite-db-build
 sqlite-db-build: clean-sqlite
-	@sqlite3 ${DEVDB} < database/sqlite/one_thousand_genomes_sample/create-tables.sql
+	@sqlite3 ${DEVDB} < database/sqlite/create-tables.sql
 
 # populate the sqlite database with test data
 .PHONY: sqlite-db-populate-dev-dataset
 sqlite-db-populate-dev-dataset:
-	@sqlite3 ${DEVDB} < database/sqlite/one_thousand_genomes_sample/add-dev-dataset.sql
+	@sqlite3 ${DEVDB} < database/sqlite/add-dev-dataset.sql
 
 .PHONY: sqlite-db-refresh
 sqlite-db-refresh: clean-sqlite sqlite-db-build sqlite-db-populate-dev-dataset
