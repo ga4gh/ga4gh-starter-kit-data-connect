@@ -1,0 +1,23 @@
+{
+  "data_model": {
+    "$id": "url-to-the-bucket/phenopacket-sample-id",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "phenopacket JSON data model",
+    "properties":
+    {
+      "id":
+      {
+        "type": "string",
+        "description": "An identifier specific for this phenopacket"
+      },
+      "json_data":
+      {
+        "$ref": "url-to-the-phenopacket-schema.json"
+      }
+    }
+  },
+  "schema": {
+    "test": "test"
+  },
+  "description": "Table / directory containing JSON files for phenopackets"
+}

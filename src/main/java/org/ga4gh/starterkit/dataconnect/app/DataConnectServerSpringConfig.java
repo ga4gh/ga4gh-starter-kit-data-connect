@@ -18,6 +18,7 @@ import org.ga4gh.starterkit.common.util.webserver.TomcatMultiConnectorServletWeb
 import org.ga4gh.starterkit.dataconnect.model.DataConnectServiceInfo;
 import org.ga4gh.starterkit.dataconnect.model.ListTablesResponse;
 import org.ga4gh.starterkit.dataconnect.model.OneThousandGenomesSample;
+import org.ga4gh.starterkit.dataconnect.model.PhenopacketV1;
 import org.ga4gh.starterkit.dataconnect.model.TableProperties;
 import org.ga4gh.starterkit.dataconnect.utils.hibernate.DataConnectHibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +143,7 @@ public class DataConnectServerSpringConfig {
         @Autowired DatabaseProps databaseProps
     ) {
         List<Class<? extends HibernateEntity<? extends Serializable>>> annotatedClasses = new ArrayList<>() {{
+            add(PhenopacketV1.class);
             add(OneThousandGenomesSample.class);
         }};
         DataConnectHibernateUtil hibernateUtil = new DataConnectHibernateUtil();
