@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@JsonFilter("tableResponseFilter")
+@JsonFilter("tablesListFilter")
 public class ListTablesResponse {
     private List<TableProperties> tables;
 
