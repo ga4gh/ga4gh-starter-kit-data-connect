@@ -140,14 +140,6 @@ public class DataConnectServerSpringConfig {
     public DataConnectHibernateUtil getHibernateUtil(
         @Autowired DatabaseProps databaseProps
     ) {
-        System.out.println("*****");
-        System.out.println("*****");
-        System.out.println("HEYY WE ARE IN HIBERNATE UTIL CREATION PHASE");
-        System.out.println(databaseProps);
-        System.out.println(databaseProps.getAllProperties());
-        System.out.println("*****");
-        System.out.println("*****");
-
         List<Class<? extends HibernateEntity<? extends Serializable>>> annotatedClasses = new ArrayList<>() {{
             add(OneThousandGenomesSample.class);
         }};
