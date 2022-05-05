@@ -25,16 +25,27 @@ def tsv_to_json(tsv_file):
             json_arr.append(sample)
         n += 1
 
-    return json.dumps(json_arr,indent=4)
+    return json_arr
 
 def main():
     # Driver Code
     input_filename = "igsr_samples.tsv"
     output_filename = "igsr_samples.json"
-    json_output = tsv_to_json(input_filename)
+    samples_array = tsv_to_json(input_filename)
 
+    # output as "pretty" JSON array
     with open(output_filename, 'w', encoding='utf-8') as json_file:
-        json_file.write(json_output)
+        json_file.write(json.dumps(samples_array,indent=4))
+    
+    # output as .ndjson, one JSON record per line
+    ndjson_filename = "igsr_samples.ndjson"
+    ndjson_file = open(ndjson_filename, "w")
+    ndjson_file.write("")
+    ndjson_file.close()
+    ndjson_file = open(ndjson_filename, "a")
+    for sample in samples_array:
+        ndjson_file.write(json.dumps(sample) + "\n")
+    ndjson_file.close()
 
 if __name__ == "__main__":
     main()
