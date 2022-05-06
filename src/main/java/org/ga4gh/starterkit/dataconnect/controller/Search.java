@@ -125,18 +125,26 @@ public class Search {
         if (simpleSqlQuery.getWhereClauses().size() > 0) {
             System.out.println("Using where clauses to turn into json extract");
             
-            SimpleSqlWhereClause whereClause = simpleSqlQuery.getWhereClauses().get(0);
-            filtersJsonified.append("json_extract(json_data, '$." + whereClause.getFieldName() + "')");
-            filtersJsonified.append(whereClause.getOperation());
-            filtersJsonified.append(whereClause.getFieldValue());
+            SimpleSqlWhereClause initialWhereClause = simpleSqlQuery.getWhereClauses().get(0);
+            filtersJsonified.append("json_extract(json_data, '$." + initialWhereClause.getFieldName() + "')");
+            filtersJsonified.append(initialWhereClause.getOperation());
+            filtersJsonified.append(initialWhereClause.getFieldValue());
 
-            /*
-            for (SimpleSqlWhereClause whereClause : simpleSqlQuery.getWhereClauses()) {
-                System.out.println(whereClause.getPosition());
-                System.out.println(whereClause.getFieldName());
-                System.out.println("---");
+            for (int i = 1; i < simpleSqlQuery.getWhereClauses().size(); i++) {
+                SimpleSqlWhereClause previousWhereClause = simpleSqlQuery.getWhereClauses().get(i-1);
+                SimpleSqlWhereClause currentWhereClause = simpleSqlQuery.getWhereClauses().get(i);
+                // add all text from the end of the previous where clause to the
+                // start of the current where clause
+                int startPos = previousWhereClause.getPosition() + previousWhereClause.getFullClause().length();
+                int endPos = currentWhereClause.getPosition();
+                String betweenClauses = parameterizedQuery.substring(startPos, endPos);
+                filtersJsonified.append(betweenClauses);
+
+                // add the current where clause
+                filtersJsonified.append("json_extract(json_data, '$." + currentWhereClause.getFieldName() + "')");
+                filtersJsonified.append(currentWhereClause.getOperation());
+                filtersJsonified.append(currentWhereClause.getFieldValue());
             }
-            */
         }
 
         // create final, jsonified query
