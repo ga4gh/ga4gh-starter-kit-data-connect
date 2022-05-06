@@ -1,6 +1,8 @@
 package org.ga4gh.starterkit.dataconnect.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,13 +12,21 @@ import java.util.HashMap;
 @Setter
 @Getter
 @NoArgsConstructor
-@JsonFilter("tableInfoFilter")
+@JsonFilter("tablePropertiesFilter")
+@JsonPropertyOrder({ "name", "description", "data_model", "data" })
 public class TableProperties {
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("description")
     private String description;
-    private DataModelRef dataModelRef;
-    private HashMap dataModel;
+
+    @JsonProperty("data_model")
+    private Object dataModel;
+
+    @JsonProperty("data")
+    private Object data;
 
     public class DataModelRef {
         private String $ref;
@@ -38,12 +48,17 @@ public class TableProperties {
     public TableProperties(String name, String description, String ref) {
         this.name = name;
         this.description= description;
-        this.dataModelRef = new DataModelRef(ref);
+        this.dataModel = new DataModelRef(ref);
     }
 
     public TableProperties(String name, String description, HashMap dataModel) {
         this.name = name;
         this.description= description;
         this.dataModel = dataModel;
+    }
+
+    public TableProperties(HashMap dataModel, Object data) {
+        this.dataModel = dataModel;
+        this.data = data;
     }
 }
