@@ -2,7 +2,6 @@ package docker.controller;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import testutils.HttpMethod;
 import testutils.SimpleHttpRequestTester;
 
 public class DockerTablesTest {
