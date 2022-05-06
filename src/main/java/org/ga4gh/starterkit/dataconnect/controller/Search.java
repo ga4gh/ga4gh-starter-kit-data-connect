@@ -14,6 +14,7 @@ import org.ga4gh.starterkit.dataconnect.model.TableData;
 import org.ga4gh.starterkit.dataconnect.utils.hibernate.DataConnectHibernateUtil;
 import org.ga4gh.starterkit.dataconnect.utils.sql.SimpleSqlQuery;
 import org.ga4gh.starterkit.dataconnect.utils.sql.SimpleSqlQueryParser;
+import org.ga4gh.starterkit.dataconnect.utils.sql.SimpleSqlWhereClause;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class Search {
             // Parse and process input query
             String parameterizedQuery = parameterizeQuery(searchRequest);
             SimpleSqlQuery simpleSqlQuery = SimpleSqlQueryParser.parse(parameterizedQuery);
-            String jsonifiedQuery = jsonifyQuery(simpleSqlQuery);
+            String jsonifiedQuery = jsonifyQuery(parameterizedQuery, simpleSqlQuery);
 
             // Execute processed query
             Session session = hibernateUtil.newTransaction();
@@ -107,18 +108,53 @@ public class Search {
         return parameterizedQuery;
     }
 
-    private String jsonifyQuery(SimpleSqlQuery simpleSqlQuery) {
-        ArrayList<String> jsonExtractFields = new ArrayList<>();
-
+    private String jsonifyQuery(String parameterizedQuery, SimpleSqlQuery simpleSqlQuery) {
+        // add json_extract to requested fields
+        ArrayList<String> requestedFieldsJsonified = new ArrayList<>();
         if (simpleSqlQuery.allFieldsRequested()) {
-            jsonExtractFields.add("'$'");
+            requestedFieldsJsonified.add("'$'");
         } else {
             for (String requestedField : simpleSqlQuery.getFields()) {
-                jsonExtractFields.add("'$." + requestedField + "'");
+                requestedFieldsJsonified.add("'$." + requestedField + "'");
             }
         }
-        String requestedFieldsJsonExtract = "json_extract(json_data, " + String.join(",", jsonExtractFields)  + ")";
+        String requestedFieldsJsonExtract = "json_extract(json_data, " + String.join(",", requestedFieldsJsonified)  + ")";
 
-        return "select " + requestedFieldsJsonExtract + " from " + simpleSqlQuery.getTableName() + ";";
+        // add json_extract to 'where' conditions
+        StringBuffer filtersJsonified = new StringBuffer();
+        if (simpleSqlQuery.getWhereClauses().size() > 0) {
+            System.out.println("Using where clauses to turn into json extract");
+            
+            SimpleSqlWhereClause initialWhereClause = simpleSqlQuery.getWhereClauses().get(0);
+            filtersJsonified.append("json_extract(json_data, '$." + initialWhereClause.getFieldName() + "')");
+            filtersJsonified.append(initialWhereClause.getOperation());
+            filtersJsonified.append(initialWhereClause.getFieldValue());
+
+            for (int i = 1; i < simpleSqlQuery.getWhereClauses().size(); i++) {
+                SimpleSqlWhereClause previousWhereClause = simpleSqlQuery.getWhereClauses().get(i-1);
+                SimpleSqlWhereClause currentWhereClause = simpleSqlQuery.getWhereClauses().get(i);
+                // add all text from the end of the previous where clause to the
+                // start of the current where clause
+                int startPos = previousWhereClause.getPosition() + previousWhereClause.getFullClause().length();
+                int endPos = currentWhereClause.getPosition();
+                String betweenClauses = parameterizedQuery.substring(startPos, endPos);
+                filtersJsonified.append(betweenClauses);
+
+                // add the current where clause
+                filtersJsonified.append("json_extract(json_data, '$." + currentWhereClause.getFieldName() + "')");
+                filtersJsonified.append(currentWhereClause.getOperation());
+                filtersJsonified.append(currentWhereClause.getFieldValue());
+            }
+        }
+
+        // create final, jsonified query
+        StringBuffer jsonifiedQuery = new StringBuffer();
+        jsonifiedQuery.append("select " + requestedFieldsJsonExtract);
+        jsonifiedQuery.append(" from " + simpleSqlQuery.getTableName());
+        if (simpleSqlQuery.getWhereClauses().size() > 0) {
+            jsonifiedQuery.append(" where " + filtersJsonified.toString());
+        }
+        jsonifiedQuery.append(";");
+        return jsonifiedQuery.toString();
     }
 }

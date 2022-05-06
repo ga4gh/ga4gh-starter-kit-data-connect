@@ -1,40 +1,46 @@
 package org.ga4gh.starterkit.dataconnect.utils.sql;
 
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SimpleSqlQueryParser {
 
-    public static SimpleSqlQuery parse(String sqlQuery) {
+    public static SimpleSqlQuery parse(String queryString) {
         SimpleSqlQuery simpleSqlQuery = new SimpleSqlQuery();
 
-        String[] queryWords = sqlQuery.toLowerCase().split(" ");
+        parseFieldsAndTableName(queryString.toLowerCase(), simpleSqlQuery);
+        parseWhereClauses(queryString, simpleSqlQuery);
 
-        boolean selectFound = false;
-        boolean fromFound = false;
-        boolean whereFound = false;
+        return simpleSqlQuery;
+    }
 
-        ArrayList<String> unprocessedRequestedFields = new ArrayList<>();
-        String tableName = null;
-        for (String queryWord : queryWords) {
-            System.out.println(queryWord);
-            if (queryWord.equals("select")) {
-                selectFound = true;
-            } else if (queryWord.equals("from")) {
-                fromFound = true;
-            } else if (queryWord.equals("where")) {
-                whereFound = true;
-            } else if (selectFound == true && fromFound == false) {
-                unprocessedRequestedFields.add(queryWord);
-            } else if (selectFound == true && fromFound == true && whereFound == false) {
-                tableName = queryWord;
-            }
+    public static void parseFieldsAndTableName(String sqlQuery, SimpleSqlQuery simpleSqlQuery) {
+        String regex = "^select (.+?) from ([^\\s]+).*;$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(sqlQuery);
+        if (! matcher.matches()) {
+            // TODO throw error here
         }
 
-        String[] fields = String.join("", unprocessedRequestedFields).split(",");
-
+        String[] fields = matcher.group(1).replaceAll(" ", "").split(",");
+        String tableName = matcher.group(2);
         simpleSqlQuery.setFields(fields);
         simpleSqlQuery.setTableName(tableName);
-        return simpleSqlQuery;
+    }
+
+    public static void parseWhereClauses(String sqlQuery, SimpleSqlQuery simpleSqlQuery) {
+        String regex = "([^\\s]+?)\\s*?(=|>|<|>=|<=|<>|between|like|in)\\s*?('.+?'|[^\\s]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(sqlQuery);
+        while (matcher.find()) {
+            SimpleSqlWhereClause whereClause = new SimpleSqlWhereClause();
+            whereClause.setPosition(matcher.start());
+            whereClause.setFieldName(matcher.group(1));
+            whereClause.setOperation(matcher.group(2));
+            whereClause.setFieldValue(matcher.group(3));
+            whereClause.setFullClause(matcher.group(0));
+            simpleSqlQuery.getWhereClauses().add(whereClause);
+        }
     }
     
 }

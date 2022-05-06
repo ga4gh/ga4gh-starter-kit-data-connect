@@ -2,7 +2,6 @@ package docker.controller;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import testutils.HttpMethod;
 import testutils.SimpleHttpRequestTester;
 
 public class DockerTablesTest {
@@ -27,8 +26,7 @@ public class DockerTablesTest {
 
     @Test
     public void testListTables() throws Exception {
-        SimpleHttpRequestTester.requestAndTest(
-            HttpMethod.GET,
+        SimpleHttpRequestTester.getRequestAndTest(
             "http://localhost:4500/tables",
             200,
             true,
@@ -38,8 +36,7 @@ public class DockerTablesTest {
 
     @Test(dataProvider = "getTableCases")
     public void testGetTableInfo(String tableName, String fileName) throws Exception {
-        SimpleHttpRequestTester.requestAndTest(
-            HttpMethod.GET,
+        SimpleHttpRequestTester.getRequestAndTest(
             "http://localhost:4500/tables/" + tableName + "/info",
             200,
             true,
@@ -49,8 +46,7 @@ public class DockerTablesTest {
 
     @Test(dataProvider = "getTableCases")
     public void testGetTableData(String tableName, String fileName) throws Exception {
-        SimpleHttpRequestTester.requestAndTest(
-            HttpMethod.GET,
+        SimpleHttpRequestTester.getRequestAndTest(
             "http://localhost:4500/tables/" + tableName + "/data",
             200,
             true,
