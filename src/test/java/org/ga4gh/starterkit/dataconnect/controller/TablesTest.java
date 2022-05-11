@@ -111,11 +111,10 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
             .andExpect(expStatus)
             .andReturn();
         String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-        String expResponseBody = ResourceLoader.load(String.format("/responses/tables/GetTableInfo/table_info_%s.json",tableName));
+        String expResponseBody = ResourceLoader.load(String.format("/responses/tables/getTableInfo/table_info_%s.json",tableName));
         Assert.assertEquals(responseBody, expResponseBody);
     }
 
-    // TODO: fix this!
     @Test(dataProvider = "getTableCases")
     public void testGetTableData(String tableName, ResultMatcher expStatus)
             throws Exception {
@@ -124,7 +123,7 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
             .andReturn();
 
         String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
-        String expResponseBody = ResourceLoader.load(String.format("/responses/tables/GetTableData/table_data_%s.json",tableName));
+        String expResponseBody = ResourceLoader.load(String.format("/responses/tables/getTableData/table_data_%s.json",tableName));
         Assert.assertEquals(responseBody, expResponseBody);
     }
 }
