@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import testutils.HttpMethod;
 import testutils.SimpleHttpRequestTester;
 import java.net.http.HttpResponse;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static testutils.SimpleHttpRequestTester.makeHttpRequest;
 
 public class DockerTablesTest {
@@ -18,12 +17,10 @@ public class DockerTablesTest {
     public Object[][] getTableCases() {
         return new Object[][]{
                 {
-                        "one_thousand_genomes_sample",
-                        status().isOk()
+                        "one_thousand_genomes_sample"
                 },
                 {
-                        "phenopacket_v1",
-                        status().isOk()
+                        "phenopacket_v1"
                 }
         };
     }

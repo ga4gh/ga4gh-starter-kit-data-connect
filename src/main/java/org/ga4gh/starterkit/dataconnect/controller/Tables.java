@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.ga4gh.starterkit.common.exception.BadRequestException;
+import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.starterkit.dataconnect.model.ListTablesResponse;
 import org.ga4gh.starterkit.dataconnect.model.TableProperties;
 import org.ga4gh.starterkit.dataconnect.utils.hibernate.DataConnectHibernateUtil;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,21 +34,27 @@ public class Tables {
     @Autowired
     private DataConnectHibernateUtil hibernateUtil;
 
+    @Autowired
+    private LoggingUtil loggingUtil;
+
     @GetMapping(path="/tables")
     public MappingJacksonValue listTables() {
         try {
+            loggingUtil.debug("Get request to /tables endpoint");
             List<String> tableNames = hibernateUtil.getEntityNames();
             ArrayList<TableProperties> tablePropertiesArrayList = new ArrayList<>();
             for (String tableName : tableNames) {
-                ObjectMapper mapper = new ObjectMapper();
-                // TODO: handle cases where metadata is not available for a table
-                Map<?, ?> map = mapper.readValue(Paths.get(String.format("./tables/%s.json", tableName)).toFile(), Map.class);
+                loggingUtil.debug(String.format("retrieving properties for %s table",tableName));
+                try(InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
+                    ObjectMapper mapper = new ObjectMapper();
+                    Map<?, ?> map = mapper.readValue(in, Map.class);
+                    tablePropertiesArrayList.add (
+                            new TableProperties (
+                                    tableName,
+                                    (String) map.get("description"),
+                                    String.format("table/%s/info", tableName)));
+                }
 
-                tablePropertiesArrayList.add (
-                        new TableProperties (
-                                tableName,
-                                (String) map.get("description"),
-                                String.format("table/%s/info", tableName)));
             }
             ListTablesResponse listTablesResponse = new ListTablesResponse(tablePropertiesArrayList);
             MappingJacksonValue mapping = new MappingJacksonValue(listTablesResponse);
@@ -61,7 +68,8 @@ public class Tables {
             FilterProvider filters = new SimpleFilterProvider().addFilter("tablePropertiesFilter", filter);
             mapping.setFilters(filters);
             return mapping;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            loggingUtil.error( e.getMessage());
             throw new BadRequestException(e.getMessage());
         }
     }
@@ -70,11 +78,13 @@ public class Tables {
     public MappingJacksonValue getTableInfo(
         @PathVariable(name = "table_name") String tableName
     ) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
+        try(InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
+            loggingUtil.debug(String.format("Get request to /table/%s/info endpoint",tableName));
+
             // read the table metadata from json file
-            Map<?, ?> map = mapper.readValue(Paths.get(String.format("./tables/%s.json", tableName)).toFile(), Map.class);
-            TableProperties tableProperties = new TableProperties (
+            ObjectMapper mapper = new ObjectMapper();
+            Map<?, ?> map = mapper.readValue(in, Map.class);
+            TableProperties tableProperties = new TableProperties(
                     tableName,
                     (String) map.get("description"),
                     (HashMap) map.get("data_model"));
@@ -92,7 +102,9 @@ public class Tables {
     public MappingJacksonValue getTableData(
         @PathVariable(name = "table_name") String tableName
     ) {
-        try {
+        try (InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
+            loggingUtil.debug(String.format("Get request to /table/%s/data endpoint",tableName));
+
             // Execute sql query
             Session session = hibernateUtil.newTransaction();
             NativeQuery<String> query = session.createSQLQuery(String.format("Select json_data from %s;",tableName));
@@ -106,9 +118,8 @@ public class Tables {
                 JsonNode processedRecord = mapper.readTree(rawRecord);
                 processedRecords.add(processedRecord);
             }
-
-            Map<?, ?> map = mapper.readValue(Paths.get(String.format("./tables/%s.json", tableName)).toFile(), Map.class);
-            TableProperties tableProperties = new TableProperties (
+            Map<?, ?> map = mapper.readValue(in, Map.class);
+            TableProperties tableProperties = new TableProperties(
                     (HashMap) map.get("data_model"),
                     processedRecords);
             MappingJacksonValue mapping = new MappingJacksonValue(tableProperties);

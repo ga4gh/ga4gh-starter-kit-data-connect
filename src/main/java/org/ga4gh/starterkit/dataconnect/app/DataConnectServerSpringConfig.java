@@ -11,6 +11,7 @@ import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
+import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsConnector;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsFilter;
 import org.ga4gh.starterkit.common.util.webserver.CorsFilterBuilder;
@@ -62,6 +63,15 @@ public class DataConnectServerSpringConfig {
         @Autowired ServerProps serverProps
     ) {
         return new CorsFilterBuilder(serverProps).buildFilter();
+    }
+
+    /* ******************************
+     * LOGGING
+     * ****************************** */
+
+    @Bean
+    public LoggingUtil loggingUtil() {
+        return new LoggingUtil();
     }
 
     /* ******************************
