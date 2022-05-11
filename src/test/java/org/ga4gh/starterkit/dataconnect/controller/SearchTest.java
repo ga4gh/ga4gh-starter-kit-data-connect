@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -109,7 +111,7 @@ public class SearchTest extends AbstractTestNGSpringContextTests {
             .andReturn();
 
         if (expSuccess) {
-            String responseBody = result.getResponse().getContentAsString();
+            String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
             String expResponseBody = ResourceLoader.load(expResponseFile);
             Assert.assertEquals(responseBody, expResponseBody);
         }

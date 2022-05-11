@@ -22,6 +22,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import testutils.ResourceLoader;
+
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -65,7 +68,7 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/tables"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andReturn();
-        String responseBody = result.getResponse().getContentAsString();
+        String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         JSONObject dataObj = (JSONObject) JSONParser.parseJSON(responseBody);
 
@@ -107,7 +110,7 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/table/" + tableName + "/info"))
             .andExpect(expStatus)
             .andReturn();
-        String responseBody = result.getResponse().getContentAsString();
+        String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
         String expResponseBody = ResourceLoader.load(String.format("/responses/tables/GetTableInfo/table_info_%s.json",tableName));
         Assert.assertEquals(responseBody, expResponseBody);
     }
@@ -119,7 +122,8 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/table/" + tableName + "/data"))
             .andExpect(expStatus)
             .andReturn();
-        String responseBody = result.getResponse().getContentAsString();
+
+        String responseBody = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
         String expResponseBody = ResourceLoader.load(String.format("/responses/tables/GetTableData/table_data_%s.json",tableName));
         Assert.assertEquals(responseBody, expResponseBody);
     }
