@@ -45,13 +45,13 @@ public class Tables {
             ArrayList<TableProperties> tablePropertiesArrayList = new ArrayList<>();
             for (String tableName : tableNames) {
                 loggingUtil.debug(String.format("retrieving properties for %s table",tableName));
-                try(InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
-                    ObjectMapper mapper = new ObjectMapper();
-                    Map<?, ?> map = mapper.readValue(in, Map.class);
+                try(InputStream descriptionInputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("description/%s.json",tableName))){
+                    ObjectMapper descriptionMapper = new ObjectMapper();
+                    Map<?, ?> descriptionMap = descriptionMapper.readValue(descriptionInputStream, Map.class);
                     tablePropertiesArrayList.add (
                             new TableProperties (
                                     tableName,
-                                    (String) map.get("description"),
+                                    (String) descriptionMap.get("description"),
                                     String.format("table/%s/info", tableName)));
                 }
 
@@ -78,16 +78,21 @@ public class Tables {
     public MappingJacksonValue getTableInfo(
         @PathVariable(name = "table_name") String tableName
     ) {
-        try(InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
+        try(
+                InputStream dataModelInputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("data_model/%s.json",tableName));
+                InputStream descriptionInputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("description/%s.json",tableName))
+        ){
             loggingUtil.debug(String.format("Get request to /table/%s/info endpoint",tableName));
 
             // read the table metadata from json file
-            ObjectMapper mapper = new ObjectMapper();
-            Map<?, ?> map = mapper.readValue(in, Map.class);
+            ObjectMapper dataModelMapper = new ObjectMapper();
+            ObjectMapper descriptionMapper = new ObjectMapper();
+            Map<?, ?> dataModelMap = dataModelMapper.readValue(dataModelInputStream, Map.class);
+            Map<?, ?> descriptionMap = descriptionMapper.readValue(descriptionInputStream, Map.class);
             TableProperties tableProperties = new TableProperties(
                     tableName,
-                    (String) map.get("description"),
-                    (HashMap) map.get("data_model"));
+                    (String) descriptionMap.get("description"),
+                    (HashMap) dataModelMap.get("data_model"));
             MappingJacksonValue mapping = new MappingJacksonValue(tableProperties);
             SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("name","description","data_model");
             FilterProvider filters = new SimpleFilterProvider().addFilter("tablePropertiesFilter", filter);
@@ -102,7 +107,7 @@ public class Tables {
     public MappingJacksonValue getTableData(
         @PathVariable(name = "table_name") String tableName
     ) {
-        try (InputStream in=Thread.currentThread().getContextClassLoader().getResourceAsStream(tableName+".json")){
+        try (InputStream dataModelInputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("data_model/%s.json",tableName))){
             loggingUtil.debug(String.format("Get request to /table/%s/data endpoint",tableName));
 
             // Execute sql query
@@ -112,13 +117,13 @@ public class Tables {
             hibernateUtil.endTransaction(session);
 
             // Process results
-            ObjectMapper mapper = new ObjectMapper();
-            ArrayNode processedRecords = mapper.createArrayNode();
+            ObjectMapper dataModelMapper = new ObjectMapper();
+            ArrayNode processedRecords = dataModelMapper.createArrayNode();
             for (String rawRecord : rawRecords) {
-                JsonNode processedRecord = mapper.readTree(rawRecord);
+                JsonNode processedRecord = dataModelMapper.readTree(rawRecord);
                 processedRecords.add(processedRecord);
             }
-            Map<?, ?> map = mapper.readValue(in, Map.class);
+            Map<?, ?> map = dataModelMapper.readValue(dataModelInputStream, Map.class);
             TableProperties tableProperties = new TableProperties(
                     (HashMap) map.get("data_model"),
                     processedRecords);

@@ -90,7 +90,7 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
                 Assert.assertEquals(dataModel.get("$ref"),"table/phenopacket_v1/info");
             } else if(tableDetails.get("name").equals("one_thousand_genomes_sample")){
                 oneThousandGenomesSamplePresent = true;
-                Assert.assertEquals(tableDetails.get("description"),"Table / directory containing JSON files for 1000 genome samples from https://www.internationalgenome.org");
+                Assert.assertEquals(tableDetails.get("description"),"Table / directory containing JSON files for one thousand genomes sample from https://www.internationalgenome.org");
                 JSONObject dataModel = (JSONObject) tableDetails.get("data_model");
                 Assert.assertEquals(dataModel.get("$ref"),"table/one_thousand_genomes_sample/info");
             }
