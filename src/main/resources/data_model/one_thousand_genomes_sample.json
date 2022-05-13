@@ -2,7 +2,7 @@
   "data_model": {
     "$id": "url-to-the-bucket/one_thousand_genomes_sample",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "one thousand genome samples Table JSON data model",
+    "description": "one thousand genomes sample Table JSON data model",
     "properties":
     {
       "id":
@@ -20,7 +20,7 @@
       "genomeSample": {
         "$id": "/schemas/genomeSample",
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "description": "one thousand genome samples JSON data model",
+        "description": "one thousand genomes sample JSON data model",
         "properties": {
           "sample_name":
           {
