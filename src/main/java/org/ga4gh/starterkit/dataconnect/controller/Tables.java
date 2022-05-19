@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.exception.BadRequestException;
 import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.starterkit.dataconnect.model.ListTablesResponse;
@@ -43,6 +44,7 @@ public class Tables {
             loggingUtil.debug("Get request to /tables endpoint");
             List<String> tableNames = hibernateUtil.getEntityNames();
             ArrayList<TableProperties> tablePropertiesArrayList = new ArrayList<>();
+            ServerProps serverProps = new ServerProps();
             for (String tableName : tableNames) {
                 loggingUtil.debug(String.format("retrieving properties for %s table",tableName));
                 try(InputStream descriptionInputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(String.format("description/%s.json",tableName))){
@@ -52,7 +54,7 @@ public class Tables {
                             new TableProperties (
                                     tableName,
                                     (String) descriptionMap.get("description"),
-                                    String.format("table/%s/info", tableName)));
+                                    String.format("%s://%s:%s/table/%s/info", serverProps.getScheme(), serverProps.getHostname() , serverProps.getPublicApiPort(),tableName)));
                 }
 
             }

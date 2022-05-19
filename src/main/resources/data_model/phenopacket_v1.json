@@ -1,19 +1,5 @@
 {
   "data_model": {
-    "$id": "url-to-the-bucket/phenopacket_v1",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "phenopacket JSON data model",
-    "properties":
-    {
-      "id":
-      {
-        "type": "string",
-        "description": "An identifier specific for this phenopacket"
-      },
-      "json_data":
-      {
-        "$ref": "https://schemablocks.org/schemas/sb-phenopackets/v1.0.0/Phenopacket.json"
-      }
-    }
+    "$ref": "https://schemablocks.org/schemas/sb-phenopackets/v1.0.0/Phenopacket.json"
   }
 }

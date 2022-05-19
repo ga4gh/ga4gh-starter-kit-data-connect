@@ -1,70 +1,63 @@
 {
-  "data_model": {
-    "$id": "url-to-the-bucket/one_thousand_genomes_sample",
+  "data_model":
+  {
+    "$id": "/table/one_thousand_genomes_sample/info",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "one thousand genomes sample Table JSON data model",
+    "description": "one thousand genomes sample JSON data model",
     "properties":
     {
-      "id":
+      "sample_name":
       {
         "type": "string",
-        "description": "An identifier specific for this genome sample specific to this database"
+        "description": "An identifier specific for this genome sample"
       },
-      "json_data":
+      "sex":
       {
-        "$ref": "/schemas/genomeSample"
-      }
-    },
-    "definitions":
-    {
-      "genomeSample": {
-        "$id": "/schemas/genomeSample",
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "description": "one thousand genomes sample JSON data model",
-        "properties": {
-          "sample_name":
-          {
-            "type": "string",
-            "description": "An identifier specific for this genome sample"
-          },
-          "sex": {
-            "type": "string"
-          },
-          "biosample_id": {
-            "type": "string",
-            "description": "bio sample identifier"
-          },
-          "population_code": {
-            "type": "string"
-          },
-          "population_name": {
-            "type": "string"
-          },
-          "superpopulation_code": {
-            "type": "string"
-          },
-          "superpopulation_name": {
-            "type": "string"
-          },
-          "population_elastic_id": {
-            "type": "string"
-          },
-          "data_collections": {
-            "type": "string"
-          },
-          "cram_drs_uri": {
-            "type": "string",
-            "description": "drs uri pointing to the cram file"
-          },
-          "crai_drs_uri": {
-            "type": "string",
-            "description": "drs uri pointing to the crai file"
-          },
-          "bundle_drs_uri": {
-            "type": "string",
-            "description": "drs uri pointing to the bundle file"
-          }
-        }
+        "type": "string"
+      },
+      "biosample_id":
+      {
+        "type": "string",
+        "description": "bio sample identifier"
+      },
+      "population_code":
+      {
+        "type": "string"
+      },
+      "population_name":
+      {
+        "type": "string"
+      },
+      "superpopulation_code":
+      {
+        "type": "string"
+      },
+      "superpopulation_name":
+      {
+        "type": "string"
+      },
+      "population_elastic_id":
+      {
+        "type": "string"
+      },
+      "data_collections":
+      {
+        "type": "string"
+      },
+      "cram_drs_uri":
+      {
+        "type": "string",
+        "description": "drs uri pointing to the cram file"
+      },
+      "crai_drs_uri":
+      {
+        "type": "string",
+        "description": "drs uri pointing to the crai file"
+      },
+      "bundle_drs_uri":
+      {
+        "type": "string",
+        "description": "drs uri pointing to the bundle file"
       }
     }
   }

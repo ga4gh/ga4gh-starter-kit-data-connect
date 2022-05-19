@@ -87,12 +87,12 @@ public class TablesTest extends AbstractTestNGSpringContextTests {
                 phenopacketV1Present = true;
                 Assert.assertEquals(tableDetails.get("description"),"Table / directory containing JSON files for phenopackets");
                 JSONObject dataModel = (JSONObject) tableDetails.get("data_model");
-                Assert.assertEquals(dataModel.get("$ref"),"table/phenopacket_v1/info");
+                Assert.assertEquals(dataModel.get("$ref"),"http://localhost:4500/table/phenopacket_v1/info");
             } else if(tableDetails.get("name").equals("one_thousand_genomes_sample")){
                 oneThousandGenomesSamplePresent = true;
                 Assert.assertEquals(tableDetails.get("description"),"Table / directory containing JSON files for one thousand genomes sample from https://www.internationalgenome.org");
                 JSONObject dataModel = (JSONObject) tableDetails.get("data_model");
-                Assert.assertEquals(dataModel.get("$ref"),"table/one_thousand_genomes_sample/info");
+                Assert.assertEquals(dataModel.get("$ref"),"http://localhost:4500/table/one_thousand_genomes_sample/info");
             }
             if (phenopacketV1Present && oneThousandGenomesSamplePresent){
                 break;
