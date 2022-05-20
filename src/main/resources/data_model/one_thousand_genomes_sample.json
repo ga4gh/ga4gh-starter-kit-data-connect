@@ -13,7 +13,12 @@
       },
       "sex":
       {
-        "type": "string"
+        "type": "string",
+        "enum":
+        [
+          "male",
+          "female"
+        ]
       },
       "biosample_id":
       {
@@ -22,19 +27,100 @@
       },
       "population_code":
       {
-        "type": "string"
+        "type": "string",
+        "enum":
+        [
+          "ITU",
+          "ASW",
+          "JPT",
+          "MSL",
+          "CHS",
+          "CDX",
+          "YRI",
+          "ACB",
+          "MXL",
+          "PUR",
+          "FIN",
+          "GWD",
+          "LWK",
+          "GIH",
+          "CLM",
+          "TSI",
+          "PEL",
+          "PJL",
+          "GBR",
+          "CHB",
+          "BEB",
+          "ESN",
+          "KHV",
+          "CEU",
+          "IBS",
+          "STU"
+        ]
       },
       "population_name":
       {
-        "type": "string"
+        "type": "string",
+        "enum":
+        [
+          "Bengali,Bengali",
+          "African Ancestry SW",
+          "Punjabi",
+          "Dai Chinese",
+          "Gambian Mandinka",
+          "Yoruba",
+          "British",
+          "Japanese",
+          "Iberian",
+          "African Caribbean",
+          "Mende",
+          "Southern Han Chinese",
+          "Han Chinese",
+          "Luhya",
+          "Kinh,Kinh Vietnamese",
+          "Toscani",
+          "Luhya,Luhya",
+          "Kinh Vietnamese",
+          "Tamil",
+          "Gujarati",
+          "Bengali",
+          "Finnish",
+          "CEPH",
+          "Telugu",
+          "Peruvian",
+          "Esan",
+          "Colombian",
+          "Punjabi,Punjabi",
+          "Puerto Rican",
+          "Mexican Ancestry"
+        ]
       },
       "superpopulation_code":
       {
-        "type": "string"
+        "type": "string",
+        "enum":
+        [
+          "AMR",
+          "EAS",
+          "EUR",
+          "SAS",
+          "AFR"
+        ]
       },
       "superpopulation_name":
       {
-        "type": "string"
+        "type": "string",
+        "enum":
+        [
+          "East Asian Ancestry",
+          "European Ancestry",
+          "African Ancestry",
+          "American Ancestry",
+          "East Asia (SGDP),East Asian Ancestry",
+          "South Asian Ancestry",
+          "South Asia (SGDP),South Asian Ancestry",
+          "African Ancestry,Africa (SGDP)"
+        ]
       },
       "population_elastic_id":
       {
