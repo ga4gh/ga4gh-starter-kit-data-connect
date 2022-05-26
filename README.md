@@ -157,3 +157,17 @@ Response:
 The SQLite dev database is preconfigured with two datasets to aid development and testing. The following datasets are included:
 * A subset of 200 genome samples from the one thousand genome samples dataset: [Paper](https://www.nature.com/articles/nature15393) , [Dataset homepage](https://www.internationalgenome.org/data)
 * A subset of 50 phenopackets from an open dataset of 384 Phenopackets: [Paper](https://pubmed.ncbi.nlm.nih.gov/32755546/), [Dataset homepage](https://zenodo.org/record/3905420#.YArkBzpKhPZ)
+
+## Changelog
+
+### v0.1.0
+
+* Basic Data Connect service with the following endpoints:
+  * `/tables`
+  * `/table/{table_name}/info`
+  * `/table/{table_name}/data`
+  * `/search`
+  * `/service-info`
+* Only 2 hardcoded data models/tables supported for now
+  * Phenopackets V1
+  * Simple 1000 Genomes sample metadata
