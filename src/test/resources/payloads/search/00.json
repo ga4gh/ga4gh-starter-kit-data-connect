@@ -1,0 +1,4 @@
+{
+  "query": "select * from one_thousand_genomes_sample;",
+  "parameters": []
+}

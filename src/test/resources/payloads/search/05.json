@@ -1,0 +1,4 @@
+{
+  "query": "select sample_name , sex , population_code , population_name from one_thousand_genomes_sample where population_code='PUR' and sex='female';",
+  "parameters": []
+}
