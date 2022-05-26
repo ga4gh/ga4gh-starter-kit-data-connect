@@ -11,13 +11,16 @@ import org.ga4gh.starterkit.common.config.ServerProps;
 import org.ga4gh.starterkit.common.hibernate.HibernateEntity;
 import org.ga4gh.starterkit.common.util.CliYamlConfigLoader;
 import org.ga4gh.starterkit.common.util.DeepObjectMerger;
+import org.ga4gh.starterkit.common.util.logging.LoggingUtil;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsConnector;
 import org.ga4gh.starterkit.common.util.webserver.AdminEndpointsFilter;
 import org.ga4gh.starterkit.common.util.webserver.CorsFilterBuilder;
 import org.ga4gh.starterkit.common.util.webserver.TomcatMultiConnectorServletWebServerFactoryCustomizer;
 import org.ga4gh.starterkit.dataconnect.model.DataConnectServiceInfo;
-import org.ga4gh.starterkit.dataconnect.model.DataConnectServiceInfo;
+import org.ga4gh.starterkit.dataconnect.model.ListTablesResponse;
 import org.ga4gh.starterkit.dataconnect.model.OneThousandGenomesSample;
+import org.ga4gh.starterkit.dataconnect.model.PhenopacketV1;
+import org.ga4gh.starterkit.dataconnect.model.TableProperties;
 import org.ga4gh.starterkit.dataconnect.utils.hibernate.DataConnectHibernateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,6 +63,15 @@ public class DataConnectServerSpringConfig {
         @Autowired ServerProps serverProps
     ) {
         return new CorsFilterBuilder(serverProps).buildFilter();
+    }
+
+    /* ******************************
+     * LOGGING
+     * ****************************** */
+
+    @Bean
+    public LoggingUtil loggingUtil() {
+        return new LoggingUtil();
     }
 
     /* ******************************
@@ -141,11 +153,24 @@ public class DataConnectServerSpringConfig {
         @Autowired DatabaseProps databaseProps
     ) {
         List<Class<? extends HibernateEntity<? extends Serializable>>> annotatedClasses = new ArrayList<>() {{
+            add(PhenopacketV1.class);
             add(OneThousandGenomesSample.class);
         }};
         DataConnectHibernateUtil hibernateUtil = new DataConnectHibernateUtil();
         hibernateUtil.setAnnotatedClasses(annotatedClasses);
         hibernateUtil.setDatabaseProps(databaseProps);
         return hibernateUtil;
+    }
+
+    @Bean
+    public TableProperties tableProperties(){
+        TableProperties tableProperties = new TableProperties();
+        return tableProperties;
+    }
+
+    @Bean
+    public ListTablesResponse listTablesResponse(){
+        ListTablesResponse listTablesResponse= new ListTablesResponse();
+        return listTablesResponse;
     }
 }

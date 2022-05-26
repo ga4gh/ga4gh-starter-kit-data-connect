@@ -1,1 +1,0 @@
-You hit the search endpoint. This method is a stub.

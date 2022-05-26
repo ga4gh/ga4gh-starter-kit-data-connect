@@ -1,0 +1,1 @@
+{"name":"phenopacket_v1","description":"Table / directory containing JSON files for phenopackets","data_model":{"$ref":"https://schemablocks.org/schemas/sb-phenopackets/v1.0.0/Phenopacket.json"}}

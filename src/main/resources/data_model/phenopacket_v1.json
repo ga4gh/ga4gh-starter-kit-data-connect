@@ -1,0 +1,5 @@
+{
+  "data_model": {
+    "$ref": "https://schemablocks.org/schemas/sb-phenopackets/v1.0.0/Phenopacket.json"
+  }
+}
