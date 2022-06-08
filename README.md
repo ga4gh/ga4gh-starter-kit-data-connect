@@ -171,3 +171,7 @@ The SQLite dev database is preconfigured with two datasets to aid development an
 * Only 2 hardcoded data models/tables supported for now
   * Phenopackets V1
   * Simple 1000 Genomes sample metadata
+
+### v0.1.1
+
+* Fix DRS URIs of the 1000 Genome Sample data in the dev dataset
