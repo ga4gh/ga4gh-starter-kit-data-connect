@@ -95,7 +95,7 @@ Response:
     "createdAt": "2022-04-27T09:00:00Z",
     "updatedAt": "2022-04-27T09:00:00Z",
     "environment": "test",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": {
         "group": "org.ga4gh",
         "artifact": "data-connect",
