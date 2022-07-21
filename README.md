@@ -153,7 +153,7 @@ Response:
 **NOTE:** The unit and end-to-end test suite is predicated on a preconfigured database. The SQLite dev database must be present for tests to pass.
 
 ## Configuration
-Please see the [Configuration page](./CONFIGURATION.md) for instructions on how to configure the DRS service with custom properties.
+Please see the [Configuration page](./CONFIGURATION.md) for instructions on how to configure the Data Connect service with custom properties.
 
 ## Dev datasets
 
