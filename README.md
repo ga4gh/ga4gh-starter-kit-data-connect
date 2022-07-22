@@ -95,7 +95,7 @@ Response:
     "createdAt": "2022-04-27T09:00:00Z",
     "updatedAt": "2022-04-27T09:00:00Z",
     "environment": "test",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": {
         "group": "org.ga4gh",
         "artifact": "data-connect",
@@ -151,6 +151,9 @@ Response:
 **NOTE:** If running via docker, the dev database is already bundled within the container.
 
 **NOTE:** The unit and end-to-end test suite is predicated on a preconfigured database. The SQLite dev database must be present for tests to pass.
+
+## Configuration
+Please see the [Configuration page](./CONFIGURATION.md) for instructions on how to configure the Data Connect service with custom properties.
 
 ## Dev datasets
 
