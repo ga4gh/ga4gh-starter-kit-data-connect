@@ -178,3 +178,7 @@ The SQLite dev database is preconfigured with two datasets to aid development an
 ### v0.1.1
 
 * Fix DRS URIs of the 1000 Genome Sample data in the dev dataset
+
+## Maintainers
+
+* GA4GH Tech Team [ga4gh-tech-team@ga4gh.org](mailto:ga4gh-tech-team@ga4gh.org)
